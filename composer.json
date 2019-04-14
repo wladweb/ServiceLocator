@@ -1,0 +1,21 @@
+{
+    "name": "wladweb/servicelocator",
+    "description": "Simple service locator",
+    "keywords": ["service locator", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Petrov",
+            "role": "developer"
+        }
+    ],
+    "type": "library",
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wladweb\\ServiceLocator\\": "src/"
+        }
+    }
+}
