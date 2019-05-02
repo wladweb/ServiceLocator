@@ -7,12 +7,13 @@ echo "<h3>Service Locator</h3>";
 
 require_once 'vendor/autoload.php';
 
+$container = null;
+$file = __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
+
 try {
-    $container = Wladweb\ServiceLocator\Container::getContainer();
+    $container = Wladweb\ServiceLocator\Container::getContainer($file);
 } catch (Wladweb\ServiceLocator\Exceptions\ContainerException $e) {
-    echo $e->getCode();
-    echo '<br>';
-    echo $e->getMessage();
+    echo $e->getCode(), '<br>', $e->getMessage();
 }
 
 var_dump($container);

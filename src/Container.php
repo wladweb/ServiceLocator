@@ -20,23 +20,22 @@ class Container implements PsrContainer
 {
 
     private static $instance;
-    private $config;
     private $services = [];
     private $singletons = [];
     private $store = [];
     private $instantiated = [];
 
-    public static function getContainer()
+    public static function getContainer($path = '')
     {
         if (!(self::$instance instanceof self)) {
-            self::$instance = new self;
+            self::$instance = new self($path);
         }
         return self::$instance;
     }
 
     public function get($name)
     {
-        //
+//
     }
 
     public function has($name)
@@ -44,19 +43,21 @@ class Container implements PsrContainer
         return array_key_exists($name, $this->services);
     }
 
-    private function loadConfig()
+    private function loadConfig($path)
     {
-        $config = include_once 'config.php';
-
-        if (false === $config) {
-            throw new ContainerException('Config file must be placed in the same directory', 1000);
+        if ($path && !\file_exists($path)) {
+            throw new ContainerException('Config file not found by path ' . $path, 1000);
         }
 
-        if (!\is_array($config)) {
-            throw new ContainerException('Config file must return an array', 1001);
-        }
+        if ($path) {
+            $config = include_once $path;
 
-        $this->config = $config;
+            if (!\is_array($config)) {
+                throw new ContainerException('Config file must return an array', 1001);
+            }
+
+            $this->setServices($config);
+        }
     }
 
     public function set($name, $service)
@@ -95,6 +96,7 @@ class Container implements PsrContainer
     private function setUpData($service)
     {
         $data = new Data;
+        $data->setContainer($this);
 
         if (\array_key_exists('constructor', $service)) {
             $data->setConstructor($service['constructor']);
@@ -120,17 +122,16 @@ class Container implements PsrContainer
         }
     }
 
-    private function setServices()
+    private function setServices($config)
     {
-        foreach ($this->config as $name => $service) {
+        foreach ($config as $name => $service) {
             $this->set($name, $service);
         }
     }
 
-    private function __construct()
+    private function __construct($path)
     {
-        $this->loadConfig();
-        $this->setServices();
+        $this->loadConfig($path);
     }
 
     private function __clone()

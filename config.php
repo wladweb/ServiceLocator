@@ -40,7 +40,7 @@ return [
         'alias' => 'Lazy',
         'singleton' => true,
         'constructor' => [
-            'dep' => '@Dep' // '@' - alias
+            'dep' => '@Dep' // '@' - dependency
         ],
         'properties' => [
             'version' => '2.2.0',

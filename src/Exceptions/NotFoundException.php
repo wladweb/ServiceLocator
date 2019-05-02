@@ -8,7 +8,7 @@ use Psr\Container\NotFoundExceptionInterface;
  * Description of NotFoundException
  * @author wladweb <wladwebwork@gmail.com>
  */
-class NotFoundException implements NotFoundExceptionInterface
+class NotFoundException extends \Exception implements NotFoundExceptionInterface
 {
     //
 }
