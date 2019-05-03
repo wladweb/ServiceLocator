@@ -18,12 +18,10 @@ use Wladweb\ServiceLocator\Definitions\LazyDefinition;
  */
 class Container implements PsrContainer
 {
-
     private static $instance;
     private $services = [];
     private $singletons = [];
     private $store = [];
-    private $instantiated = [];
 
     public static function getContainer($path = '')
     {
@@ -33,9 +31,23 @@ class Container implements PsrContainer
         return self::$instance;
     }
 
-    public function get($name)
+    public function get($name, array $service = [])
     {
-//
+        if (isset($this->store[$name])){
+            return $this->store[$name];
+        }
+        
+        if (!array_key_exists($name, $this->services)){
+            throw new NotFoundException("Service $name not found");
+        }
+        
+        $value = $this->services[$name]->create($this->setUpData($service));
+        
+        if (\array_key_exists($name, $this->singletons)){
+            $this->store[$name] = $value;
+        }
+        
+        return $value;
     }
 
     public function has($name)
@@ -63,6 +75,11 @@ class Container implements PsrContainer
     public function set($name, $service)
     {
         $data = $this->setUpData($service);
+        
+        if (!\array_key_exists('value', $service)){
+            throw new ContainerException('Dont have value', 1004);
+        }
+        
         $value = $service['value'];
 
         if (\array_key_exists('singleton', $service) && $service['singleton'] === true) {
@@ -86,7 +103,6 @@ class Container implements PsrContainer
             if (!$reflection_class->isInstantiable()) {
                 throw new ContainerException('Cant create instance of ' . $reflection_class->getName());
             }
-
             $this->services[$name] = new LazyDefinition($data, $reflection_class);
         } else {
             $this->services[$name] = new ValueDefinition($value);

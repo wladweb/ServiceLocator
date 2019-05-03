@@ -14,5 +14,7 @@ class ContainerException extends \Exception implements ContainerExceptionInterfa
      * 'Config file not found by path',                 1000
      * 'Config file must return an array',              1001
      * 'Cant resolve dependency',                       1002
+     * 'Cant resolve parameter',                        1003
+     * 'Dont have value',                               1004
      */
 }

@@ -27,6 +27,6 @@ class AliasDefenition implements DefinitionInterface, ContainerRequireInterface
     
     public function create($data = null)
     {
-        $this->container->get($this->value);
+        return $this->container->get($this->value);
     }
 }

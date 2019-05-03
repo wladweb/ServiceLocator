@@ -30,15 +30,10 @@ return [
         'alias' => 'Str',
     ],
                 
-    'IntValue' => [
-        'value' => 12,
-        'alias' => 'Int',
-    ],
-                
     'SomeLazy' => [
         'value' => 'Wladweb\ServiceLocator\Lib\Lazy', //FQN
         'alias' => 'Lazy',
-        'singleton' => true,
+        //'singleton' => true,
         'constructor' => [
             'dep' => '@Dep' // '@' - dependency
         ],

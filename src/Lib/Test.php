@@ -14,7 +14,7 @@ class Test
     
     public function __construct($complex_arg)
     {
-        //
+        $this->prop_a = $complex_arg;
     }
     
     public function setB($b)

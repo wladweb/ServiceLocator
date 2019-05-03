@@ -25,7 +25,7 @@ class ObjectDefinition implements DefinitionInterface
         if ($data->hasProperties()){
             $properties = $data->getProperties();
         } else {
-            $properties = $this->value->getProperties();
+            $properties = $this->data->getProperties();
         }
         
         foreach ($properties as $key => $val){
@@ -35,7 +35,7 @@ class ObjectDefinition implements DefinitionInterface
         if ($data->hasMethods()){
             $methods = $data->getMethods();
         } else {
-            $methods = $this->value->getMethods();
+            $methods = $this->data->getMethods();
         }
        
         foreach ($methods as $method => $args){
