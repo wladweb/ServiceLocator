@@ -9,16 +9,27 @@ namespace Wladweb\ServiceLocator\Lib;
 class Test
 {
     public $version;
-    public $prop_a;
+    public $author;
+    private $complex_arg;
     private $prop_b;
     
     public function __construct($complex_arg)
     {
-        $this->prop_a = $complex_arg;
+        $this->complex_arg = $complex_arg;
     }
     
     public function setB($b)
     {
         $this->prop_b = $b;
+    }
+    
+    public function getB()
+    {
+        return $this->prop_b;
+    }
+    
+    public function getComplex()
+    {
+        return $this->complex_arg;
     }
 }

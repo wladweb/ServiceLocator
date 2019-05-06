@@ -31,4 +31,9 @@ class Lazy
         $this->prop_d = $d;
         $this->prop_e = $e;
     }
+    
+    public function getDependency()
+    {
+        return $this->dependency;
+    }
 }
