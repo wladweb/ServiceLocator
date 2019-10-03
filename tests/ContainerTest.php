@@ -296,4 +296,16 @@ class ContainerTest extends TestCase
         $this->assertEquals($lazy->getDependency(), $dep);
     }
 
+    public function testFixIssue1(){
+        
+        $fqn = '\Wladweb\ServiceLocator\Lib\DepForIssueOne';
+
+        $this->container->set('fix', [
+            'value' => $fqn,
+        ]);
+        
+        $fix = $this->container->get('fix');
+        
+        $this->assertInstanceOf($fqn, $fix);
+    }
 }

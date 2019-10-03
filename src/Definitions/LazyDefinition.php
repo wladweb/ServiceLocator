@@ -32,7 +32,6 @@ class LazyDefinition implements DefinitionInterface, ContainerRequireInterface
 
     public function create(DataInterface $data)
     {
-
         $reflection_constructor = $this->value->getConstructor();
 
         if (is_null($reflection_constructor)) {
@@ -41,7 +40,7 @@ class LazyDefinition implements DefinitionInterface, ContainerRequireInterface
             $args = $data->getConstructor();
         } elseif ($this->data->hasConstructor()) {
             $args = $this->data->getConstructor();
-        } else {
+        } elseif (!empty($reflection_constructor->getParameters())) {
 
             foreach ($reflection_constructor->getParameters() as $arg) {
                 if ($arg->isDefaultValueAvailable()) {
@@ -50,8 +49,10 @@ class LazyDefinition implements DefinitionInterface, ContainerRequireInterface
                     throw new ContainerException('Cant resolve parameter ' . $arg->getName(), 1003);
                 }
             }
+        } else {
+            $args = [];
         }
-        
+
         $object = $this->value->newInstanceArgs($args);
 
         if ($data->hasProperties()) {
